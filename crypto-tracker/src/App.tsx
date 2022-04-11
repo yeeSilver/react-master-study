@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic+Coding:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cousine:wght@700&family=Do+Hyeon&family=Roboto+Mono&display=swap');
   html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -50,12 +50,13 @@ table {
   box-sizing: border-box;
 }
 body{
-  font-family: 'Nanum Gothic Coding', monospace;
+	font-family: 'Cousine', monospace;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
 }
 a{
   text-decoration: none;
+	color: inherit;
 }
 `;
 
