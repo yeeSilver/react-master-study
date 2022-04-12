@@ -1,9 +1,11 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
+import "./index.css";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Cousine:wght@700&family=Do+Hyeon&family=Roboto+Mono&display=swap');
-  html, body, div, span, applet, object, iframe,
+//왜 여기서는 적용이 안될까?
+/* @import url('https://fonts.googleapis.com/css2?family=Damion&display=swap');
+html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -22,15 +24,14 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
-}
+	font-family: 'Damion';
+} */
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-body {
-	line-height: 1;
-}
+
 ol, ul {
 	list-style: none;
 }
@@ -50,10 +51,11 @@ table {
   box-sizing: border-box;
 }
 body{
-	font-family: 'Cousine', monospace;
+	line-height: 1;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
 }
+
 a{
   text-decoration: none;
 	color: inherit;
