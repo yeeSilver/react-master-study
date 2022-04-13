@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 interface RouteParams {
-  coinId: string;
+  // coinId: string;
+  [coinId: string]: string;
 }
 
 const Container = styled.div`
