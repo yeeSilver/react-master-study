@@ -63,6 +63,10 @@ interface CoinInterface {
   type: string;
 }
 
+const handleSave = (coinName: string) => {
+  localStorage.setItem("coinName", coinName);
+};
+
 export default function Coins() {
   // State가 .coin으로 된 array임을 설정.
   const [coins, setCoins] = useState<CoinInterface[]>([]);
@@ -91,11 +95,11 @@ export default function Coins() {
           <CoinsList>
             {/* coins의 coin마다 UI를 보여주고 싶어 &rarr;는 오른쪽 화살표임*/}
             {coins.map((coin) => (
-              <Coin key={coin.id}>
+              <Coin key={coin.id} onClick={() => handleSave(coin.name)}>
                 <Link
                   to={{
                     pathname: `/${coin.id}`,
-                    state: { name: coin.name },
+                    // state: { name: coin.name },
                   }}
                 >
                   <Icon

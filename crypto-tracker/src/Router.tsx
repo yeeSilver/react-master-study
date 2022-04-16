@@ -8,14 +8,10 @@ function Router() {
       <Routes>
         {/* 두 번째 라우터는 Coin 스크린 렌더링 
         path="/:coinId" 였는데 바꿈*/}
-        <Route path=":coinId">
-          <Coin />
-        </Route>
+        <Route path="/:coinId" element={<Coin />} />
 
-        {/* 첫 번째 라우터는 Coins 스크린을 렌더링 함 path="/" 였는데 바꿈 */}
-        <Route path=".">
-          <Coins />
-        </Route>
+        {/* 첫 번째 라우터는 Coins 스크린을 렌더링 함 path="/" 였는데 바꿈 path="."*/}
+        <Route path="/" element={<Coins />} />
       </Routes>
     </BrowserRouter>
   );
