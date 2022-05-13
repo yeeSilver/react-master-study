@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
-
-interface RouteParams {
-  // coinId: string;
-  [coinId: string]: string;
-}
 
 const Container = styled.div`
   max-width: 480px;
@@ -31,14 +26,31 @@ const Loader = styled.span`
   text-align: center;
 `;
 
+interface RouteParams {
+  // coinId: string;
+  [coinId: string]: string;
+}
+
+interface ILocation {
+  state: {
+    name: string;
+  };
+}
+
 export default function Coin() {
   const [loading, setLoading] = useState(true);
   // const params = useParams<{coinId: string}>();
   const { coinId } = useParams<RouteParams>();
+  const { state } = useLocation() as ILocation;
+  //state가 뭔지 타입스크립트한테 알려줄 interface RouteState 작성해야함
+  // const { state } = useLocation<RouteState>();
+  // const coinName = localStorage.getItem("coinName");
+
   return (
     <Container>
       <Header>
-        <Title>{coinId}</Title>
+        <Title>{state.name}</Title>
+        {/* <Title>{coinName}</Title> */}
       </Header>
       {loading ? <Loader>Loading...</Loader> : null}{" "}
     </Container>

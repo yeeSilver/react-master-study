@@ -97,6 +97,7 @@ export default function Coins() {
             {coins.map((coin) => (
               <Coin key={coin.id} onClick={() => handleSave(coin.name)}>
                 <Link
+                  state={{ name: coin.name }}
                   to={{
                     pathname: `/${coin.id}`,
                     // state: { name: coin.name },
