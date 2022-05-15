@@ -96,6 +96,7 @@ export default function Coins() {
             {/* coins의 coin마다 UI를 보여주고 싶어 &rarr;는 오른쪽 화살표임*/}
             {coins.map((coin) => (
               <Coin key={coin.id} onClick={() => handleSave(coin.name)}>
+                {/* state는 coins -> coin으로 화면 전환을 할 때 생성되고 전송됨 */}
                 <Link
                   state={{ name: coin.name }}
                   to={{
