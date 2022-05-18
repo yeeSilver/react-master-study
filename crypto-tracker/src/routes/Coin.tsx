@@ -21,6 +21,31 @@ const Title = styled.h1`
   /* font-family: "Beau Rivage", cursive; */
 `;
 
+const Overview = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #ffe4c4ca;
+`;
+
+const OverviewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  span:first-child {
+    margin-bottom: 5px;
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+`;
+
+const Description = styled.p`
+  margin: 20px 0px;
+`;
+
 const Loader = styled.span`
   display: block;
   text-align: center;
@@ -117,16 +142,50 @@ export default function Coin() {
       ).json();
       setInfo(infoData);
       setPriceInfo(priceData);
+      setLoading(false); //이걸 안해주면 계속 loading중이라는 창만 뜨겠지
     })();
-  }, []);
+  }, [coinId]);
 
   return (
     <Container>
       <Header>
-        <Title>{state.name}</Title>
+        {/* state에 있는 이름을 바로 보여줄거야-> 홈페이지에서 코인을 클릭할 때만 true가 되겠지 이때 state가 형성되니까. 그런데 만약 홈페이지에서 넘어간게 아니라면 ->  loading중이라면 "Loading..."을 출력할 것이고 로딩 중이 아니라면 API로부터 받아온(infoData) name을 출력할 거야 */}
+        <Title>
+          {state.name ? state.name : loading ? "Loading..." : info?.name}
+        </Title>
         {/* <Title>{coinName}</Title> */}
       </Header>
-      {loading ? <Loader>Loading...</Loader> : null}{" "}
+      {loading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <>
+          <Overview>
+            <OverviewItem>
+              <span>Rank:</span>
+              <span>{info?.rank}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>Symbol:</span>
+              <span>{info?.symbol}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>Open Structure:</span>
+              <span>{info?.org_structure}</span>
+            </OverviewItem>
+          </Overview>
+          <Description>{info?.description} </Description>
+          <Overview>
+            <OverviewItem>
+              <span>Total Suply:</span>
+              <span>{priceInfo?.total_supply}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>Max Suply:</span>
+              <span>{priceInfo?.max_supply}</span>
+            </OverviewItem>
+          </Overview>
+        </>
+      )}{" "}
     </Container>
   );
 }
