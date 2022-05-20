@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Routes, Route, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
+import Chart from "./Chart";
+import Price from "./Price";
 
 const Container = styled.div`
   max-width: 480px;
@@ -26,7 +28,7 @@ const Overview = styled.div`
   justify-content: space-between;
   padding: 10px 20px;
   border-radius: 10px;
-  background-color: #ffe4c4ca;
+  background-color: #f3cfa3c9;
 `;
 
 const OverviewItem = styled.div`
@@ -184,6 +186,15 @@ export default function Coin() {
               <span>{priceInfo?.max_supply}</span>
             </OverviewItem>
           </Overview>
+          {/* tab key 라우터를 만들면 path를 가져야 해*/}
+          <Routes>
+            <Route path=":price">
+              <Price />
+            </Route>
+            <Route path=":chart">
+              <Chart />
+            </Route>
+          </Routes>
         </>
       )}{" "}
     </Container>
