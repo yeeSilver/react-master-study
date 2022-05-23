@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useLocation, useParams } from "react-router-dom";
+import { Routes, Route, useLocation, useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 import Chart from "./Chart";
 import Price from "./Price";
@@ -51,6 +51,26 @@ const Description = styled.p`
 const Loader = styled.span`
   display: block;
   text-align: center;
+`;
+
+const Tabs = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 25px 0px;
+  gap: 10px;
+`;
+
+const Tab = styled.span`
+  padding: 7px 0px;
+  border-radius: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: #859cb0;
+  font-size: 12px;
+  font-weight: 400;
+  a {
+    display: block;
+  }
 `;
 
 interface RouteParams {
@@ -186,14 +206,24 @@ export default function Coin() {
               <span>{priceInfo?.max_supply}</span>
             </OverviewItem>
           </Overview>
+
+          <Tabs>
+            <Tab>
+              <Link to={`/${coinId}/chart`}>Chart</Link>
+              {/* <Link to={`chart`}>Chart</Link> */}
+            </Tab>
+            <Tab>
+              <Link to={`/${coinId}/price`}>Price</Link>
+              {/* <Link to={`price`}>Price</Link> */}
+            </Tab>
+          </Tabs>
           {/* tab key 라우터를 만들면 path를 가져야 해*/}
+
           <Routes>
-            <Route path=":price">
-              <Price />
-            </Route>
-            <Route path=":chart">
-              <Chart />
-            </Route>
+            {/* <Route path={`/:coinId/chart`} element={<Chart />} />
+            <Route path={`/:coinId/price`} element={<Price />} /> */}
+            <Route path=":price" element={<Price />} />
+            <Route path=":chart" element={<Chart />} />
           </Routes>
         </>
       )}{" "}
