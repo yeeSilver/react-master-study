@@ -63,14 +63,15 @@ interface CoinInterface {
   type: string;
 }
 
-const handleSave = (coinName: string) => {
-  localStorage.setItem("coinName", coinName);
-};
+// const handleSave = (coinName: string) => {
+//   localStorage.setItem("coinName", coinName);
+// };
 
 export default function Coins() {
   // State가 .coin으로 된 array임을 설정.
   const [coins, setCoins] = useState<CoinInterface[]>([]);
   const [loading, setLoading] = useState(true);
+
   // useEffect : 특정한 시기에 코드를 실행하기 위함. 컴포넌트 시작점에서만 실행되도록 해보자.
   useEffect(() => {
     //(함수)(); => 함수 정의하고 바로 실행해줌
@@ -94,20 +95,22 @@ export default function Coins() {
         ) : (
           <CoinsList>
             {/* coins의 coin마다 UI를 보여주고 싶어 &rarr;는 오른쪽 화살표임*/}
+
             {coins.map((coin) => (
-              <Coin key={coin.id} onClick={() => handleSave(coin.name)}>
+              // <Coin key={coin.id} onClick={() => handleSave(coin.name)}>
+              <Coin key={coin.id}>
                 {/* state는 coins -> coin으로 화면 전환을 할 때 생성되고 전송됨 */}
                 <Link
+                  to={`/${coin.id}`}
                   state={{ name: coin.name }}
-                  to={{
-                    pathname: `/${coin.id}`,
-                    // state: { name: coin.name },
-                  }}
+                  // to={{
+                  //   pathname: `/${coin.id}`,
+                  // }}
                 >
                   <Icon
                     src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
                   />
-                  {coin.name} &rarr;
+                  <p>{coin.name} &rarr;</p>
                 </Link>
               </Coin>
             ))}

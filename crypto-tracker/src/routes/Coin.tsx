@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useLocation, useParams, Link } from "react-router-dom";
+import {
+  useLocation,
+  useParams,
+  Link,
+  useMatch,
+  Outlet,
+} from "react-router-dom";
 import styled from "styled-components";
-import Chart from "./Chart";
-import Price from "./Price";
 
 const Container = styled.div`
   max-width: 480px;
@@ -60,7 +64,7 @@ const Tabs = styled.div`
   gap: 10px;
 `;
 
-const Tab = styled.span`
+const Tab = styled.span<{ isActive: boolean }>`
   padding: 7px 0px;
   border-radius: 10px;
   text-align: center;
@@ -68,20 +72,20 @@ const Tab = styled.span`
   background-color: #859cb0;
   font-size: 12px;
   font-weight: 400;
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
   }
 `;
 
-interface RouteParams {
-  // coinId: string;
-  [coinId: string]: string;
-}
+// interface RouteParams {
+//   // coinId: string;
+//   [coinId: string]: string;
+// }
 
 interface ILocation {
-  state: {
-    name: string;
-  };
+  name: string;
 }
 
 interface InfoData {
@@ -140,31 +144,32 @@ interface PriceData {
   };
 }
 
-export default function Coin() {
+function Coin() {
   const [loading, setLoading] = useState(true);
-  // const params = useParams<{coinId: string}>();
-  const { coinId } = useParams<RouteParams>();
-  const { state } = useLocation() as ILocation;
-  //state가 뭔지 타입스크립트한테 알려줄 interface RouteState 작성해야함
-  // const { state } = useLocation<RouteState>();
+  const { coinId } = useParams();
+  const location = useLocation();
+  const state = location.state as ILocation;
+  // const { state } = useLocation() as ILocation;
   // const coinName = localStorage.getItem("coinName");
 
   //이렇게 하면 ts는 info가 <InfoData>라고 인식
   const [info, setInfo] = useState<InfoData>();
   const [priceInfo, setPriceInfo] = useState<PriceData>();
+  // routeMatch에게 우리가 coin/price라는 URL에 있는 지 여부를 확인해달라고 물어보는 코드. 만약coinId/price에 유저가 있다면 priceMatch로 특정 값이 반환됨
+  const priceMatch = useMatch("/:coinId/price");
+  const chartMatch = useMatch("/:coinId/chart");
 
   useEffect(() => {
     (async () => {
       const infoData = await (
         await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
       ).json();
-
       const priceData = await (
         await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
       ).json();
       setInfo(infoData);
       setPriceInfo(priceData);
-      setLoading(false); //이걸 안해주면 계속 loading중이라는 창만 뜨겠지
+      setLoading(false); //이걸 안해주면 계속 로딩이라는 창만 뜸
     })();
   }, [coinId]);
 
@@ -173,10 +178,11 @@ export default function Coin() {
       <Header>
         {/* state에 있는 이름을 바로 보여줄거야-> 홈페이지에서 코인을 클릭할 때만 true가 되겠지 이때 state가 형성되니까. 그런데 만약 홈페이지에서 넘어간게 아니라면 ->  loading중이라면 "Loading..."을 출력할 것이고 로딩 중이 아니라면 API로부터 받아온(infoData) name을 출력할 거야 */}
         <Title>
-          {state.name ? state.name : loading ? "Loading..." : info?.name}
+          {/* {coinName ? coinName : loading ? "Loading..." : info?.name} */}
+          {state?.name ? state.name : loading ? "Loading..." : info?.name}
         </Title>
-        {/* <Title>{coinName}</Title> */}
       </Header>
+
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -207,26 +213,20 @@ export default function Coin() {
             </OverviewItem>
           </Overview>
 
+          {/* chart & price tab */}
           <Tabs>
-            <Tab>
+            <Tab isActive={chartMatch !== null}>
               <Link to={`/${coinId}/chart`}>Chart</Link>
-              {/* <Link to={`chart`}>Chart</Link> */}
             </Tab>
-            <Tab>
+            <Tab isActive={priceMatch !== null}>
               <Link to={`/${coinId}/price`}>Price</Link>
-              {/* <Link to={`price`}>Price</Link> */}
             </Tab>
           </Tabs>
-          {/* tab key 라우터를 만들면 path를 가져야 해*/}
-
-          <Routes>
-            {/* <Route path={`/:coinId/chart`} element={<Chart />} />
-            <Route path={`/:coinId/price`} element={<Price />} /> */}
-            <Route path=":price" element={<Price />} />
-            <Route path=":chart" element={<Chart />} />
-          </Routes>
+          <Outlet context={coinId} />
+          {/* <Outlet /> */}
         </>
-      )}{" "}
+      )}
     </Container>
   );
 }
+export default Coin;
