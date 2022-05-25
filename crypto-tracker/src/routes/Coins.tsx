@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { fetchCoins } from "../api";
 
 const Container = styled.div`
   max-width: 480px;
@@ -68,20 +70,9 @@ interface CoinInterface {
 // };
 
 export default function Coins() {
-  // State가 .coin으로 된 array임을 설정.
-  const [coins, setCoins] = useState<CoinInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  // useEffect : 특정한 시기에 코드를 실행하기 위함. 컴포넌트 시작점에서만 실행되도록 해보자.
-  useEffect(() => {
-    //(함수)(); => 함수 정의하고 바로 실행해줌
-    (async () => {
-      const response = await fetch("https://api.coinpaprika.com/v1/coins");
-      const json = await response.json();
-      setCoins(json.slice(0, 100));
-      setLoading(false);
-    })();
-  }, []);
+  //리액트쿼리의 훅인 유즈 쿼리가 fetchCoins를 실행하고 함수가 로딩중이라면(isLoading) true값을 반환, 함수가 로딩이 끝나면 false 반환 그리고 함수의 반환 데이터를 data에 저장
+  //데이터가 뭔지 ts한테 정의해줘야해 : <CoinInterface[]>
+  const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins);
 
   return (
     <>
@@ -90,13 +81,14 @@ export default function Coins() {
           <Title>Check Out Coins</Title>
         </Header>
         {/* 코인을 다 받아왔을 때만 로딩은 false임.  */}
-        {loading ? (
+        {isLoading ? (
           <Loader>Loading...</Loader>
         ) : (
           <CoinsList>
             {/* coins의 coin마다 UI를 보여주고 싶어 &rarr;는 오른쪽 화살표임*/}
+            {/* 데이터중에 100개의 코인에 대해서만 보여주고 싶다 data.slice(0,100).map((~)) */}
 
-            {coins.map((coin) => (
+            {data?.slice(0, 100).map((coin) => (
               // <Coin key={coin.id} onClick={() => handleSave(coin.name)}>
               <Coin key={coin.id}>
                 {/* state는 coins -> coin으로 화면 전환을 할 때 생성되고 전송됨 */}

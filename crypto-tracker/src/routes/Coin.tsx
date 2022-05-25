@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import {
   useLocation,
   useParams,
@@ -7,6 +8,7 @@ import {
   Outlet,
 } from "react-router-dom";
 import styled from "styled-components";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 
 const Container = styled.div`
   max-width: 480px;
@@ -80,7 +82,7 @@ const Tab = styled.span<{ isActive: boolean }>`
 `;
 
 // interface RouteParams {
-//   // coinId: string;
+//   coinId: string;
 //   [coinId: string]: string;
 // }
 
@@ -145,12 +147,9 @@ interface PriceData {
 }
 
 function Coin() {
-  const [loading, setLoading] = useState(true);
   const { coinId } = useParams();
   const location = useLocation();
   const state = location.state as ILocation;
-  // const { state } = useLocation() as ILocation;
-  // const coinName = localStorage.getItem("coinName");
 
   //이렇게 하면 ts는 info가 <InfoData>라고 인식
   const [info, setInfo] = useState<InfoData>();
@@ -158,28 +157,24 @@ function Coin() {
   // routeMatch에게 우리가 coin/price라는 URL에 있는 지 여부를 확인해달라고 물어보는 코드. 만약coinId/price에 유저가 있다면 priceMatch로 특정 값이 반환됨
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
+  // isLoading의 이름을 infoLoading으로 변경함
+  const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
+    ["info", coinId],
+    () => fetchCoinInfo(coinId)
+  );
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
+    ["tickers", coinId],
+    () => fetchCoinTickers(coinId)
+  );
 
-  useEffect(() => {
-    (async () => {
-      const infoData = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-      const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-      setInfo(infoData);
-      setPriceInfo(priceData);
-      setLoading(false); //이걸 안해주면 계속 로딩이라는 창만 뜸
-    })();
-  }, [coinId]);
-
+  const loading = infoLoading || tickersLoading;
   return (
     <Container>
       <Header>
         {/* state에 있는 이름을 바로 보여줄거야-> 홈페이지에서 코인을 클릭할 때만 true가 되겠지 이때 state가 형성되니까. 그런데 만약 홈페이지에서 넘어간게 아니라면 ->  loading중이라면 "Loading..."을 출력할 것이고 로딩 중이 아니라면 API로부터 받아온(infoData) name을 출력할 거야 */}
         <Title>
           {/* {coinName ? coinName : loading ? "Loading..." : info?.name} */}
-          {state?.name ? state.name : loading ? "Loading..." : info?.name}
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
       </Header>
 
@@ -190,26 +185,26 @@ function Coin() {
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>{info?.symbol}</span>
+              <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Open Structure:</span>
-              <span>{info?.org_structure}</span>
+              <span>{infoData?.org_structure}</span>
             </OverviewItem>
           </Overview>
-          <Description>{info?.description} </Description>
+          <Description>{infoData?.description} </Description>
           <Overview>
             <OverviewItem>
               <span>Total Suply:</span>
-              <span>{priceInfo?.total_supply}</span>
+              <span>{tickersData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Max Suply:</span>
-              <span>{priceInfo?.max_supply}</span>
+              <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
 
