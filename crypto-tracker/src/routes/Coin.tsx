@@ -166,7 +166,7 @@ function Coin() {
     ["tickers", coinId],
     () => fetchCoinTickers(coinId)
   );
-
+  // infoLoading혹은 tickersLoading이면 true
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
