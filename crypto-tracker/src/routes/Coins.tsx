@@ -80,7 +80,7 @@ export default function Coins() {
       <Container>
         <HelmetProvider>
           <Helmet>
-            <Title>Check Out Coins</Title>
+            <title>Check Out Coins</title>
           </Helmet>
         </HelmetProvider>
         <Header>
