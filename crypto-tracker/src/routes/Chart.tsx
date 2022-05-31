@@ -23,8 +23,12 @@ export default function Chart() {
   //2.Outlet에서 가져오기
   const coinId = useOutletContext() as ChartProps["coinId"];
 
-  const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
-    fetchCoinHistory(coinId)
+  const { isLoading, data } = useQuery<IHistorical[]>(
+    ["ohlcv", coinId],
+    () => fetchCoinHistory(coinId),
+    {
+      refetchInterval: 1000,
+    }
   );
   return (
     <>

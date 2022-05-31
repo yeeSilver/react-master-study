@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+// import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -77,6 +78,11 @@ export default function Coins() {
   return (
     <>
       <Container>
+        <HelmetProvider>
+          <Helmet>
+            <Title>Check Out Coins</Title>
+          </Helmet>
+        </HelmetProvider>
         <Header>
           <Title>Check Out Coins</Title>
         </Header>
