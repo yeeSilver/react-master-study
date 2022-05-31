@@ -58,10 +58,13 @@ export default function Chart() {
                 show: false,
               },
               xaxis: {
+                axisBorder: { show: false },
                 axisTicks: { show: false },
                 labels: {
                   show: false,
                 },
+                categories: data?.map((price) => price.time_close),
+                type: "datetime",
               },
               theme: {
                 mode: "dark",
@@ -76,6 +79,16 @@ export default function Chart() {
               stroke: {
                 curve: "smooth",
                 width: 3,
+              },
+              fill: {
+                type: "gradient",
+                gradient: { gradientToColors: ["orange"], stops: [0, 100] },
+              },
+              colors: ["aqua"],
+              tooltip: {
+                y: {
+                  formatter: (value) => `$${value.toFixed(2)}`,
+                },
               },
             }}
           />
