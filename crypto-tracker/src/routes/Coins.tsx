@@ -1,5 +1,4 @@
 import { Helmet, HelmetProvider } from "react-helmet-async";
-// import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -22,8 +21,10 @@ const CoinsList = styled.ul``;
 const Coin = styled.li`
   margin-bottom: 15px;
   border-radius: 15px;
-  background-color: whitesmoke;
-  color: ${(props) => props.theme.bgColor};
+  background-color: white;
+  color: ${(props) => props.theme.textColor};
+  box-shadow: 0 1px 3px rgba(0, 0, 0), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   a {
     display: flex;
     justify-content: flex-start;
@@ -35,6 +36,7 @@ const Coin = styled.li`
     a {
       color: ${(props) => props.theme.accentColor};
     }
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
 `;
 
@@ -81,6 +83,7 @@ export default function Coins() {
         <HelmetProvider>
           <Helmet>
             <title>Check Out Coins</title>
+            <button>toggle Mode button</button>
           </Helmet>
         </HelmetProvider>
         <Header>

@@ -1,7 +1,9 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "./index.css";
+import { darkTheme, lightTheme } from "./theme";
+import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
 //왜 여기서는 적용이 안될까?
@@ -64,11 +66,17 @@ a{
 `;
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+  //setState function
+  //현대의 상태(current) state의 반대를 리턴하도록 하자.
+  const toggleDark = () => setIsDark((current) => !current);
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlobalStyle />
+        <Router toggleDark={toggleDark} />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </>
   );
 }

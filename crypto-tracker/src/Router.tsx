@@ -4,7 +4,11 @@ import Coin from "./routes/Coin";
 import Coins from "./routes/Coins";
 import Price from "./routes/Price";
 
-function Router() {
+interface IRouterProps {
+  toggleDark: () => void;
+}
+
+function Router({ toggleDark }: IRouterProps) {
   return (
     <BrowserRouter>
       <Routes>
