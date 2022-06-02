@@ -6,6 +6,7 @@ import ReactApexChart from "react-apexcharts";
 
 interface ChartProps {
   coinId: string;
+  isDark: boolean;
 }
 interface IHistorical {
   time_open: string;
@@ -21,8 +22,11 @@ export default function Chart() {
   //1.useParams사용해서 coinId가져오기
   const params = useParams();
   //2.Outlet에서 가져오기
-  const coinId = useOutletContext() as ChartProps["coinId"];
+  const props = useOutletContext() as ChartProps;
+  const coinId = props.coinId;
+  const isDark = props.isDark;
 
+  // const isDark = false;
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
@@ -71,7 +75,7 @@ export default function Chart() {
                 type: "datetime",
               },
               theme: {
-                mode: "dark",
+                mode: isDark ? "dark" : "light",
                 palette: "palette5",
                 monochrome: {
                   enabled: false,

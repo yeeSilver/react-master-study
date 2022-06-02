@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 import React, { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useQuery } from "react-query";
@@ -147,7 +148,11 @@ interface PriceData {
   };
 }
 
-function Coin() {
+interface ICoinProps {
+  isDark: boolean;
+}
+
+function Coin({ isDark }: ICoinProps) {
   const { coinId } = useParams();
   const location = useLocation();
   const state = location.state as ILocation;
@@ -226,7 +231,7 @@ function Coin() {
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <Outlet context={coinId} />
+          <Outlet context={{ coinId, isDark }} />
           {/* <Outlet /> */}
         </>
       )}

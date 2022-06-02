@@ -67,12 +67,15 @@ interface CoinInterface {
   is_active: boolean;
   type: string;
 }
+interface ICoinsProps {
+  toggleDark: () => void;
+}
 
 // const handleSave = (coinName: string) => {
 //   localStorage.setItem("coinName", coinName);
 // };
 
-export default function Coins() {
+export default function Coins({ toggleDark }: ICoinsProps) {
   //리액트쿼리의 훅인 유즈 쿼리가 fetchCoins를 실행하고 함수가 로딩중이라면(isLoading) true값을 반환, 함수가 로딩이 끝나면 false 반환 그리고 함수의 반환 데이터를 data에 저장
   //데이터가 뭔지 ts한테 정의해줘야해 : <CoinInterface[]>
   const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins);
@@ -83,11 +86,11 @@ export default function Coins() {
         <HelmetProvider>
           <Helmet>
             <title>Check Out Coins</title>
-            <button>toggle Mode button</button>
           </Helmet>
         </HelmetProvider>
         <Header>
           <Title>Check Out Coins</Title>
+          <button onClick={toggleDark}>toggle Mode button</button>
         </Header>
         {/* 코인을 다 받아왔을 때만 로딩은 false임.  */}
         {isLoading ? (
@@ -103,7 +106,7 @@ export default function Coins() {
                 {/* state는 coins -> coin으로 화면 전환을 할 때 생성되고 전송됨 */}
                 <Link
                   to={`/${coin.id}`}
-                  state={{ name: coin.name }}
+                  // state={{ name: coin.name }}
                   // to={{
                   //   pathname: `/${coin.id}`,
                   // }}
