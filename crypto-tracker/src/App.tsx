@@ -4,6 +4,8 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import "./index.css";
 import { darkTheme, lightTheme } from "./theme";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./routes/atoms";
 
 const GlobalStyle = createGlobalStyle`
 //왜 여기서는 적용이 안될까?
@@ -52,7 +54,7 @@ table {
 }
 *{
   box-sizing: border-box;
-}
+} 
 body{
 	line-height: 1;
   background-color: ${(props) => props.theme.bgColor};
@@ -66,15 +68,12 @@ a{
 `;
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
-  //setState function
-  //현대의 상태(current) state의 반대를 리턴하도록 하자.
-  const toggleDark = () => setIsDark((current) => !current);
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
-        <Router isDark={isDark} toggleDark={toggleDark} />
+        <Router />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </>

@@ -148,11 +148,9 @@ interface PriceData {
   };
 }
 
-interface ICoinProps {
-  isDark: boolean;
-}
+interface ICoinProps {}
 
-function Coin({ isDark }: ICoinProps) {
+function Coin({}: ICoinProps) {
   const { coinId } = useParams();
   const location = useLocation();
   const state = location.state as ILocation;
@@ -231,7 +229,7 @@ function Coin({ isDark }: ICoinProps) {
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <Outlet context={{ coinId, isDark }} />
+          <Outlet context={{ coinId }} />
           {/* <Outlet /> */}
         </>
       )}
