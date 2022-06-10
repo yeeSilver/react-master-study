@@ -1,5 +1,3 @@
-import { start } from "repl";
-
 const BASE_URL = `https://api.coinpaprika.com/v1`;
 
 export async function fetchCoins() {

@@ -5,6 +5,7 @@ import { fetchCoinHistory } from "../api";
 import ReactApexChart from "react-apexcharts";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "./atoms";
+import { type } from "os";
 
 interface ChartProps {
   coinId: string;
@@ -35,6 +36,10 @@ export default function Chart() {
       refetchInterval: 1000,
     }
   );
+  const open = data?.map((price) => price.open.toFixed(2));
+  const high = data?.map((price) => price.high.toFixed(2));
+  const low = data?.map((price) => price.low.toFixed(2));
+  const close = data?.map((price) => price.close.toFixed(2));
 
   return (
     <>
@@ -104,6 +109,70 @@ export default function Chart() {
           />
         )}
       </div>
+
+      <div>
+        {/* candle chart */}
+        {isLoading ? (
+          "Loading chart..."
+        ) : (
+          <ReactApexChart
+            options={{
+              theme: {
+                mode: isDark ? "dark" : "light",
+              },
+              chart: {
+                type: "candlestick",
+                height: 350,
+              },
+              fill: {
+                type: "gradient",
+                gradient: { gradientToColors: ["orange"], stops: [0, 100] },
+              },
+              xaxis: {
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                labels: {
+                  // show: false,
+                  datetimeFormatter: {
+                    year: "yyyy",
+                    month: "MMM 'yy",
+                    day: "dd MMM",
+                    hour: "HH:mm",
+                  },
+                },
+                type: "datetime",
+              },
+            }}
+            series={[
+              {
+                data: [
+                  {
+                    x: Math.floor(Date.now() / 1000),
+                    y: [
+                      open ? open[0] : 0,
+                      high ? high[0] : 0,
+                      low ? low[0] : 0,
+                      close ? close[0] : 0,
+                    ],
+                  },
+                  {
+                    x: Math.floor(Date.now() / 1000) - 60 * 60 * 20,
+                    y: [
+                      open ? open[1] : 0,
+                      high ? high[1] : 0,
+                      low ? low[1] : 0,
+                      close ? close[1] : 0,
+                    ],
+                  },
+                ],
+              },
+            ]}
+            type="candlestick"
+            height={350}
+          />
+        )}
+      </div>
     </>
   );
 }
+Math.floor(Date.now() / 1000);
