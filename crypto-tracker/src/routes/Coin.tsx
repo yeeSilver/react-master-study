@@ -11,6 +11,8 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atoms";
 
 const Container = styled.div`
   max-width: 480px;
@@ -165,6 +167,7 @@ function Coin({}: ICoinProps) {
   // routeMatch에게 우리가 coin/price라는 URL에 있는 지 여부를 확인해달라고 물어보는 코드. 만약coinId/price에 유저가 있다면 priceMatch로 특정 값이 반환됨
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
+  const isDark = useRecoilValue(isDarkAtom);
   // isLoading의 이름을 infoLoading으로 변경함
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
@@ -190,7 +193,9 @@ function Coin({}: ICoinProps) {
       </HelmetProvider>
       <Header>
         <BackBtn>
-          <FiArrowLeftCircle size="36" />
+          <Link to={"/"}>
+            <FiArrowLeftCircle size="36" color={isDark ? "white" : "black"} />
+          </Link>
         </BackBtn>
         {/* state에 있는 이름을 바로 보여줄거야-> 홈페이지에서 코인을 클릭할 때만 true가 되겠지 이때 state가 형성되니까. 그런데 만약 홈페이지에서 넘어간게 아니라면 ->  loading중이라면 "Loading..."을 출력할 것이고 로딩 중이 아니라면 API로부터 받아온(infoData) name을 출력할 거야 */}
         <Title>
