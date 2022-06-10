@@ -1,7 +1,7 @@
 /* eslint-disable no-sequences */
-import React, { useEffect, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useQuery } from "react-query";
+import { FiArrowLeftCircle } from "react-icons/fi";
 import {
   useLocation,
   useParams,
@@ -83,6 +83,13 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
+const BackBtn = styled.button`
+  border: none;
+  background: none;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 // interface RouteParams {
 //   coinId: string;
 //   [coinId: string]: string;
@@ -155,9 +162,6 @@ function Coin({}: ICoinProps) {
   const location = useLocation();
   const state = location.state as ILocation;
 
-  //이렇게 하면 ts는 info가 <InfoData>라고 인식
-  const [info, setInfo] = useState<InfoData>();
-  const [priceInfo, setPriceInfo] = useState<PriceData>();
   // routeMatch에게 우리가 coin/price라는 URL에 있는 지 여부를 확인해달라고 물어보는 코드. 만약coinId/price에 유저가 있다면 priceMatch로 특정 값이 반환됨
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
@@ -173,6 +177,8 @@ function Coin({}: ICoinProps) {
   );
   // infoLoading혹은 tickersLoading이면 true
   const loading = infoLoading || tickersLoading;
+  // backbtn
+
   return (
     <Container>
       <HelmetProvider>
@@ -183,6 +189,9 @@ function Coin({}: ICoinProps) {
         </Helmet>
       </HelmetProvider>
       <Header>
+        <BackBtn>
+          <FiArrowLeftCircle size="36" />
+        </BackBtn>
         {/* state에 있는 이름을 바로 보여줄거야-> 홈페이지에서 코인을 클릭할 때만 true가 되겠지 이때 state가 형성되니까. 그런데 만약 홈페이지에서 넘어간게 아니라면 ->  loading중이라면 "Loading..."을 출력할 것이고 로딩 중이 아니라면 API로부터 받아온(infoData) name을 출력할 거야 */}
         <Title>
           {/* {coinName ? coinName : loading ? "Loading..." : info?.name} */}

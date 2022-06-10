@@ -23,8 +23,9 @@ export default function Chart() {
   //1.useParams사용해서 coinId가져오기
   const params = useParams();
   //2.Outlet에서 가져오기
-  const props = useOutletContext() as ChartProps;
-  const coinId = props.coinId;
+  // const props = useOutletContext() as ChartProps;
+  // const coinId = props.coinId;
+  const { coinId } = useOutletContext<ChartProps>();
   const isDark = useRecoilValue(isDarkAtom);
   // const isDark = false;
   const { isLoading, data } = useQuery<IHistorical[]>(
@@ -34,6 +35,7 @@ export default function Chart() {
       refetchInterval: 1000,
     }
   );
+
   return (
     <>
       <div>

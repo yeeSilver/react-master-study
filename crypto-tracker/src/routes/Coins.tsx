@@ -1,8 +1,10 @@
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import { isDarkAtom } from "./atoms";
 
 const Container = styled.div`
   max-width: 480px;
@@ -74,10 +76,12 @@ interface ICoinsProps {}
 // };
 
 export default function Coins() {
+  //SetterFn: value를 설정(set)하는 function. useRecoilState를 통해 function을 가져오고 이 펑션이 value를 수정할거야. seeterFn은 setState처럼 작동함.
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   //리액트쿼리의 훅인 유즈 쿼리가 fetchCoins를 실행하고 함수가 로딩중이라면(isLoading) true값을 반환, 함수가 로딩이 끝나면 false 반환 그리고 함수의 반환 데이터를 data에 저장
   //데이터가 뭔지 ts한테 정의해줘야해 : <CoinInterface[]>
   const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins);
-
   return (
     <>
       <Container>
@@ -88,7 +92,7 @@ export default function Coins() {
         </HelmetProvider>
         <Header>
           <Title>Check Out Coins</Title>
-          {/* <button onClick={toggleDark}>toggle Mode button</button> */}
+          <button onClick={toggleDarkAtom}>toggle Mode</button>
         </Header>
         {/* 코인을 다 받아왔을 때만 로딩은 false임.  */}
         {isLoading ? (
