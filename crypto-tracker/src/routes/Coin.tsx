@@ -163,7 +163,6 @@ function Coin({}: ICoinProps) {
   const { coinId } = useParams();
   const location = useLocation();
   const state = location.state as ILocation;
-
   // routeMatch에게 우리가 coin/price라는 URL에 있는 지 여부를 확인해달라고 물어보는 코드. 만약coinId/price에 유저가 있다면 priceMatch로 특정 값이 반환됨
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
@@ -181,6 +180,7 @@ function Coin({}: ICoinProps) {
   // infoLoading혹은 tickersLoading이면 true
   const loading = infoLoading || tickersLoading;
   // backbtn
+  console.log(state);
 
   return (
     <Container>
