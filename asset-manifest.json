@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/react-master-study/crypto-tracker/static/css/main.e9273048.css",
-    "main.js": "/react-master-study/crypto-tracker/static/js/main.48e331c2.js",
-    "index.html": "/react-master-study/crypto-tracker/index.html",
-    "main.e9273048.css.map": "/react-master-study/crypto-tracker/static/css/main.e9273048.css.map",
-    "main.48e331c2.js.map": "/react-master-study/crypto-tracker/static/js/main.48e331c2.js.map"
+    "main.css": "/yeesilver.github.io/react-master-study/crypto-tracker/static/css/main.e9273048.css",
+    "main.js": "/yeesilver.github.io/react-master-study/crypto-tracker/static/js/main.84f62c18.js",
+    "index.html": "/yeesilver.github.io/react-master-study/crypto-tracker/index.html",
+    "main.e9273048.css.map": "/yeesilver.github.io/react-master-study/crypto-tracker/static/css/main.e9273048.css.map",
+    "main.84f62c18.js.map": "/yeesilver.github.io/react-master-study/crypto-tracker/static/js/main.84f62c18.js.map"
   },
   "entrypoints": [
     "static/css/main.e9273048.css",
-    "static/js/main.48e331c2.js"
+    "static/js/main.84f62c18.js"
   ]
 }
