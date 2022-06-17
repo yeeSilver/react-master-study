@@ -2,11 +2,16 @@
 
 import styled from "styled-components";
 import { useEffect } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  useViewportScroll,
+} from "framer-motion";
 import { useRef } from "react";
 
 const Wrapper = styled(motion.div)`
-  height: 100vh;
+  height: 150vh;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -122,6 +127,8 @@ function App() {
       "linear-gradient(135deg, rgb(205, 97, 85), rgb(93, 173, 226))",
     ]
   );
+  const { scrollYProgress } = useViewportScroll();
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 5]);
 
   return (
     <>
@@ -147,7 +154,7 @@ function App() {
         </BiggerBox> */}
 
         {/* <button onClick={() => x.set(200)}>click me</button> */}
-        <Box_M style={{ x, rotateZ }} drag="x" dragSnapToOrigin />
+        <Box_M style={{ x, rotateZ, scale }} drag="x" dragSnapToOrigin />
       </Wrapper>
     </>
   );
