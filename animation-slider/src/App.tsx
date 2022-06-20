@@ -15,9 +15,9 @@ const Wrapper = styled(motion.div)`
   height: 100vh;
   width: 100vw;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   background: linear-gradient(135deg, #f97794, #623aa2);
 `;
 
@@ -140,6 +140,8 @@ const Box_P = styled(motion.div)`
   align-items: center;
   width: 400px;
   height: 200px;
+  position: absolute;
+  top: 100px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 40px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
@@ -177,6 +179,7 @@ const boxVariants_presence2 = {
     x: -500,
     opacity: 0,
     scale: 0,
+    transition: { duration: 1 },
   },
 };
 function App() {
@@ -199,6 +202,7 @@ function App() {
   // const toggleShowing = () => setShowing((prev) => !prev);
   const [visible, setVisible] = useState(1);
   const next = () => setVisible((prev) => (prev === 10 ? 10 : prev + 1));
+  const prev = () => setVisible((prev) => (prev === 1 ? 1 : prev - 1));
   return (
     <>
       <Wrapper style={{ background: gradient }}>
@@ -259,7 +263,7 @@ function App() {
             i === visible ? (
               <Box_P
                 variants={boxVariants_presence2}
-                initial="visible"
+                initial="invisible"
                 animate="visible"
                 exit="exit"
                 key={i}
@@ -270,6 +274,7 @@ function App() {
           )}
         </AnimatePresence>
         <button onClick={next}>next</button>
+        <button onClick={prev}>prev</button>
       </Wrapper>
     </>
   );
