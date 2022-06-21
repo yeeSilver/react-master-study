@@ -35,26 +35,26 @@ const Overlay = styled(motion.div)`
   align-items: center;
 `;
 export default function SlidePage() {
-  const [clicked, setClicked] = useState(false);
-  const toggleShowing = () => setClicked((prev) => !prev);
+  // id는 null이거나 혹은 string임
+  const [id, setId] = useState<null | string>(null);
   return (
-    <div onClick={toggleShowing}>
+    <div>
       <Grid>
-        <Box layoutId="hi" />
-        <Box />
-        <Box />
-        <Box />
+        {[1, 2, 3, 4].map((i) => (
+          <Box onClick={() => setId(i + "")} key={i} layoutId={i + ""} />
+        ))}
       </Grid>
       {/* 오버레이창: 클릭시 뒷배경에 보이는 어두운 배경 창 */}
       <AnimatePresence>
-        {clicked ? (
+        {id ? (
           <Overlay
+            onClick={() => setId(null)}
             initial={{ backgroundColor: " rgba(0, 0, 0, 0)" }}
             animate={{ backgroundColor: " rgba(0, 0, 0, 0.5)" }}
             exit={{ backgroundColor: " rgba(0, 0, 0, 0)" }}
           >
             {/* 어두운 배경 위에 선택된 창 */}
-            <Box layoutId="hi" style={{ width: 400, height: 200 }} />
+            <Box layoutId={id} style={{ width: 400, height: 200 }} />
           </Overlay>
         ) : null}
       </AnimatePresence>
