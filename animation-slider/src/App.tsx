@@ -1,6 +1,7 @@
 // import ToDoList from "./ToDoList";
 
 import styled from "styled-components";
+import SlidePage from "./SlidePage";
 import { useEffect, useState } from "react";
 import {
   motion,
@@ -267,7 +268,7 @@ function App() {
           ) : null}
         </AnimatePresence> */}
 
-        <AnimatePresence custom={back}>
+        {/* <AnimatePresence custom={back}>
           <Box_P
             custom={back}
             variants={boxVariants_presence2}
@@ -280,7 +281,8 @@ function App() {
           </Box_P>
         </AnimatePresence>
         <button onClick={next}>next</button>
-        <button onClick={prev}>prev</button>
+        <button onClick={prev}>prev</button> */}
+        <SlidePage />
       </Wrapper>
     </>
   );
