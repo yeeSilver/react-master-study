@@ -165,22 +165,23 @@ const boxVariants_presence = {
 
 //AnimatePresence #1
 const boxVariants_presence2 = {
-  invisible: {
-    x: 500,
+  invisible: (back: boolean) => ({
+    x: back ? -500 : 500,
     opacity: 0,
     scale: 0,
-  },
+  }),
   visible: {
     x: 0,
     opacity: 1,
     scale: 1,
+    transition: { duration: 0.5 },
   },
-  exit: {
-    x: -500,
+  exit: (back: boolean) => ({
+    x: back ? 500 : -500,
     opacity: 0,
     scale: 0,
-    transition: { duration: 1 },
-  },
+    transition: { duration: 0.5 },
+  }),
 };
 function App() {
   const biggerBoxRef = useRef<HTMLDivElement>(null);
@@ -201,8 +202,16 @@ function App() {
   // const [showing, setShowing] = useState(false);
   // const toggleShowing = () => setShowing((prev) => !prev);
   const [visible, setVisible] = useState(1);
-  const next = () => setVisible((prev) => (prev === 10 ? 10 : prev + 1));
-  const prev = () => setVisible((prev) => (prev === 1 ? 1 : prev - 1));
+  const [back, setBack] = useState(false);
+  const next = () => {
+    setBack(false);
+    setVisible((prev) => (prev === 10 ? 10 : prev + 1));
+  };
+  const prev = () => {
+    setBack(true);
+    setVisible((prev) => (prev === 1 ? 1 : prev - 1));
+  };
+
   return (
     <>
       <Wrapper style={{ background: gradient }}>
@@ -258,20 +267,17 @@ function App() {
           ) : null}
         </AnimatePresence> */}
 
-        <AnimatePresence>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) =>
-            i === visible ? (
-              <Box_P
-                variants={boxVariants_presence2}
-                initial="invisible"
-                animate="visible"
-                exit="exit"
-                key={i}
-              >
-                {i}
-              </Box_P>
-            ) : null
-          )}
+        <AnimatePresence custom={back}>
+          <Box_P
+            custom={back}
+            variants={boxVariants_presence2}
+            initial="invisible"
+            animate="visible"
+            exit="exit"
+            key={visible}
+          >
+            {visible}
+          </Box_P>
         </AnimatePresence>
         <button onClick={next}>next</button>
         <button onClick={prev}>prev</button>
