@@ -10,7 +10,7 @@ export default function ToDoList() {
   const [category, setCategory] = useRecoilState(categoryState);
   const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
     //Input이 변할 때 setCategory 호출
-    setCategory(event.currentTarget.value);
+    setCategory(event.currentTarget.value as any);
   };
   return (
     <div>

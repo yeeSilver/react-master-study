@@ -1,13 +1,15 @@
 import { atom, selector } from "recoil";
 
+type categories = "TO_DO" | "DOING" | "DONE";
+
 export interface IToDo {
   text: string;
   id: number;
   //string중에서도 이 세개 중 하나에 해당해야 함
-  category: "TO_DO" | "DOING" | "DONE";
+  category: categories;
 }
 //할일을 처음 등록할때 정할 수 있는 카테고리
-export const categoryState = atom({
+export const categoryState = atom<categories>({
   key: "category",
   default: "TO_DO",
 });
