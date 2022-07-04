@@ -1,17 +1,21 @@
 import { atom, selector } from "recoil";
 
-type categories = "TO_DO" | "DOING" | "DONE";
+export enum Categories {
+  "TO_DO" = "TO_DO",
+  "DOING" = "DOING",
+  "DONE" = "DONE",
+}
 
 export interface IToDo {
   text: string;
   id: number;
   //string중에서도 이 세개 중 하나에 해당해야 함
-  category: categories;
+  category: Categories;
 }
 //할일을 처음 등록할때 정할 수 있는 카테고리
-export const categoryState = atom<categories>({
+export const categoryState = atom<Categories>({
   key: "category",
-  default: "TO_DO",
+  default: Categories.TO_DO,
 });
 
 export const toDoState = atom<IToDo[]>({
