@@ -22,7 +22,7 @@ export default function CreateToDo() {
         {...register("toDo", {
           required: "Warning: This is empty",
         })}
-        placeholder="Write a to do"
+        placeholder="Write a to-do"
       />
       <button>➕</button>
     </form>
