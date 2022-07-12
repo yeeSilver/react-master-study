@@ -22,12 +22,8 @@ export default function ToDo({ text, category, id }: IToDo) {
       ];
     });
   };
-  const onDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const {
-      currentTarget: { name },
-    } = event;
 
-    console.log(name);
+  const onDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     setToDos((oldToDos) => {
       const deltetargetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
 
