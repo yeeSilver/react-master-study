@@ -1,5 +1,12 @@
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { toDoState } from "./atom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,14 +35,19 @@ const Boards = styled.div`
   width: 100%;
   grid-template-columns: repeat(1, 1fr);
 `;
-const todos = [
-  "세기말풋사과",
-  "치즈인더트랩",
-  "내가 죽기로 결심한 것은",
-  "순정망화",
-];
+
 export default function App() {
-  const onDragEnd = () => {};
+  const [toDos, setToDos] = useRecoilState(toDoState);
+  //onDragEnd 드래그가 끝난 뒤에 실행되는 함수
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) return;
+    setToDos((oldToDos) => {
+      const copyToDos = [...oldToDos];
+      copyToDos.splice(source.index, 1);
+      copyToDos.splice(destination?.index, 0, draggableId);
+      return copyToDos;
+    });
+  };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
@@ -43,8 +55,9 @@ export default function App() {
           <Droppable droppableId="one">
             {(magic) => (
               <Board ref={magic.innerRef} {...magic.droppableProps}>
-                {todos.map((todo, index) => (
-                  <Draggable draggableId={todo} index={index}>
+                {toDos.map((todo, index) => (
+                  //보통 key는 index로 주어지는 경우가 많지만 이 경우에는 draggableId와 key가 동일해야 함.
+                  <Draggable key={todo} draggableId={todo} index={index}>
                     {(magic) => (
                       <Card
                         ref={magic.innerRef}
