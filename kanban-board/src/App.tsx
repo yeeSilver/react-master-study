@@ -7,6 +7,7 @@ import {
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atom";
+import DraggableCard from "./Components/DraggableCard";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,12 +25,7 @@ const Board = styled.article`
   border-radius: 10px;
   min-height: 200px;
 `;
-const Card = styled.div`
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: ${(props) => props.theme.cardColor};
-  border-radius: 5px;
-`;
+
 const Boards = styled.div`
   display: grid;
   width: 100%;
@@ -56,19 +52,7 @@ export default function App() {
             {(magic) => (
               <Board ref={magic.innerRef} {...magic.droppableProps}>
                 {toDos.map((todo, index) => (
-                  //보통 key는 index로 주어지는 경우가 많지만 이 경우에는 draggableId와 key가 동일해야 함.
-                  <Draggable key={todo} draggableId={todo} index={index}>
-                    {(magic) => (
-                      <Card
-                        ref={magic.innerRef}
-                        {...magic.draggableProps}
-                        {...magic.dragHandleProps}
-                      >
-                        <span {...magic.dragHandleProps}>🍅</span>
-                        {todo}
-                      </Card>
-                    )}
-                  </Draggable>
+                  <DraggableCard key={todo} toDo={todo} index={index} />
                 ))}
                 {magic.placeholder}
               </Board>
