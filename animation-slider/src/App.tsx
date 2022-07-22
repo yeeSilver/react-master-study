@@ -11,6 +11,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { useRef } from "react";
+import ChallengePage from "./ChallengePage";
 
 const Wrapper = styled(motion.div)`
   height: 100vh;
@@ -221,8 +222,8 @@ function App() {
           <Circle variants={circleVariants} />
           <Circle variants={circleVariants} />
           <Circle variants={circleVariants} />
-        </Box>
-        <Box_G variants={boxGVariants} whileHover="hover" whileTap="click" />
+        </Box> */}
+        {/* <Box_G variants={boxGVariants} whileHover="hover" whileTap="click" />
         <BiggerBox ref={biggerBoxRef}>
           <Box_D
             drag
@@ -235,9 +236,9 @@ function App() {
             whileDrag="drag"
           />
         </BiggerBox> */}
-
-        {/* <button onClick={() => x.set(200)}>click me</button> */}
-        {/* <Box_M style={{ x, rotateZ, scale }} drag="x" dragSnapToOrigin /> */}
+        {/* 
+        <button onClick={() => x.set(200)}>click me</button>
+        <Box_M style={{ x, rotateZ, scale }} drag="x" dragSnapToOrigin /> */}
 
         {/* <Svg
           focusable="false"
@@ -282,7 +283,8 @@ function App() {
         </AnimatePresence>
         <button onClick={next}>next</button>
         <button onClick={prev}>prev</button> */}
-        <SlidePage />
+        {/* <SlidePage /> */}
+        <ChallengePage />
       </Wrapper>
     </>
   );
