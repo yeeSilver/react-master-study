@@ -1,3 +1,4 @@
+import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 const Card = styled.div`
@@ -10,7 +11,7 @@ interface IDraggableCardProps {
   toDo: string;
   index: number;
 }
-export default function DraggableCard({ toDo, index }: IDraggableCardProps) {
+function DragabbleCard({ toDo, index }: IDraggableCardProps) {
   return (
     //보통 key는 index로 주어지는 경우가 많지만 이 경우에는 draggableId와 key가 동일해야 함.
     <Draggable key={toDo} draggableId={toDo} index={index}>
@@ -27,3 +28,4 @@ export default function DraggableCard({ toDo, index }: IDraggableCardProps) {
     </Draggable>
   );
 }
+export default React.memo(DragabbleCard);
