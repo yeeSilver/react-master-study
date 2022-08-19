@@ -7,7 +7,8 @@ interface IToDoState {
 export const toDoState = atom<IToDoState>({
   key: "toDo",
   default: {
-    to_do: [
+    //to_do
+    TODO: [
       "세기말풋사과",
       "치즈인더트랩",
       "순정망화",
@@ -15,8 +16,8 @@ export const toDoState = atom<IToDoState>({
       "먹이",
       "전지적 독자 시점",
     ],
-    doing: [],
-    done: [],
+    DOING: [],
+    DONE: [],
   },
   // default: ["a", "b", "c", "d", "e", "f"],
 });
