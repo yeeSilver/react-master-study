@@ -26,13 +26,16 @@ export default function App() {
   // onDragEnd 드래그가 끝난 뒤에 실행되는 함수
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
+
     if (destination?.droppableId === source.droppableId) {
       // same board
       setToDos((allBoards) => {
         // all boards를 가져와서 doing 보드를 카피하고, source.index로부터 1개를 잘라냄. 그리고 목적지 index에 draggableId 요소를 추가.
         const boardCopy = [...allBoards[source.droppableId]];
+        //taskObj: 옮기려고하는 todo obj 전체를 가져다 줌
+        const taskObj = boardCopy[source.index];
         boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, draggableId);
+        boardCopy.splice(destination?.index, 0, taskObj);
         return {
           ...allBoards,
           [source.droppableId]: boardCopy,
@@ -45,15 +48,16 @@ export default function App() {
       setToDos((allBoards) => {
         const sourceCopy = [...allBoards[source.droppableId]];
         const destiCopy = [...allBoards[destination.droppableId]];
+        const taskObj = sourceCopy[source.index];
+
         sourceCopy.splice(source.index, 1);
-        destiCopy.splice(destination?.index, 0, draggableId);
+        destiCopy.splice(destination?.index, 0, taskObj);
         return {
           ...allBoards,
           [source.droppableId]: sourceCopy,
           [destination.droppableId]: destiCopy,
         };
       });
-      console.log(toDos);
     }
   };
   return (

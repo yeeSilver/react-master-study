@@ -1,21 +1,20 @@
 import { atom, selector } from "recoil";
 
+export interface IToDo {
+  id: number;
+  text: string;
+}
+
 interface IToDoState {
-  [key: string]: string[];
+  //여러개의 boads 안의 todo들 어레이
+  [key: string]: IToDo[];
 }
 
 export const toDoState = atom<IToDoState>({
   key: "toDo",
   default: {
     //to_do
-    TODO: [
-      "세기말풋사과",
-      "치즈인더트랩",
-      "순정망화",
-      "내가 죽기로 결심한 것은",
-      "먹이",
-      "전지적 독자 시점",
-    ],
+    TODO: [],
     DOING: [],
     DONE: [],
   },

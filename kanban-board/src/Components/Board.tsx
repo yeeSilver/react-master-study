@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useForm } from "react-hook-form";
 import { Droppable } from "react-beautiful-dnd";
 import DragabbleCard from "./DragabbleCard";
 import styled from "styled-components";
+import { IToDo, toDoState } from "../atom";
+import { useSetRecoilState } from "recoil";
 
 const Wrapper = styled.article`
   display: flex;
@@ -29,9 +32,16 @@ const Area = styled.div<IAreaProps>`
     props.isDraggingOver
       ? "#FFDEDE"
       : props.draggingFromThisWith
-      ? "#899da4"
+      ? "#8da6d6"
       : "#7294d4"};
   transition: background-color 0.3s ease-in-out;
+`;
+
+const Form = styled.form`
+  width: 100%;
+  input {
+    width: 100%;
+  }
 `;
 
 interface IAreaProps {
@@ -40,13 +50,41 @@ interface IAreaProps {
 }
 
 interface IBoardProps {
-  toDos: string[];
+  toDos: IToDo[];
   boardId: string;
 }
+
+interface IForm {
+  toDo: string;
+}
+
 export default function Board({ toDos, boardId }: IBoardProps) {
+  const setToDos = useSetRecoilState(toDoState);
+  const { register, setValue, handleSubmit } = useForm<IForm>();
+  const onValid = ({ toDo }: IForm) => {
+    const newToDo = {
+      id: Date.now(),
+      text: toDo,
+    };
+    //toDo의 인풋 발류를 빈칸으로 만들어주도록.
+    setToDos((allBoards) => {
+      return {
+        ...allBoards,
+        [boardId]: [...allBoards[boardId], newToDo],
+      };
+    });
+    setValue("toDo", "");
+  };
   return (
     <Wrapper>
       <Title>{boardId}</Title>
+      <Form onSubmit={handleSubmit(onValid)}>
+        <input
+          {...register("toDo", { required: true })}
+          type="text"
+          placeholder={`Add task on ${boardId}`}
+        />
+      </Form>
       <Droppable droppableId={boardId}>
         {(magic, snapshot) => (
           <Area
@@ -56,7 +94,12 @@ export default function Board({ toDos, boardId }: IBoardProps) {
             {...magic.droppableProps}
           >
             {toDos.map((todo, index) => (
-              <DragabbleCard key={todo} toDo={todo} index={index} />
+              <DragabbleCard
+                key={todo.id}
+                toDoId={todo.id}
+                index={index}
+                toDoText={todo.text}
+              />
             ))}
             {magic.placeholder}
           </Area>
