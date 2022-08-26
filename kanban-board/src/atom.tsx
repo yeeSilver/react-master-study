@@ -20,3 +20,10 @@ export const toDoState = atom<IToDoState>({
   },
   // default: ["a", "b", "c", "d", "e", "f"],
 });
+
+export const deleteState = atom<IToDoState>({
+  key: "del",
+  default: {
+    DELETE: [],
+  },
+});

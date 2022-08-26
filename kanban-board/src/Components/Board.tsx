@@ -14,6 +14,11 @@ const Wrapper = styled.article`
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 10px;
   min-height: 200px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  &:active {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
 `;
 
 const Title = styled.h2`
@@ -30,7 +35,7 @@ const Area = styled.div<IAreaProps>`
   padding: 20px;
   background-color: ${(props) =>
     props.isDraggingOver
-      ? "#FFDEDE"
+      ? "#FFE380"
       : props.draggingFromThisWith
       ? "#8da6d6"
       : "#7294d4"};
@@ -41,6 +46,8 @@ const Form = styled.form`
   width: 100%;
   input {
     width: 100%;
+    border-style: none;
+    padding: 10px;
   }
 `;
 
@@ -75,6 +82,7 @@ export default function Board({ toDos, boardId }: IBoardProps) {
     });
     setValue("toDo", "");
   };
+
   return (
     <Wrapper>
       <Title>{boardId}</Title>
@@ -82,7 +90,7 @@ export default function Board({ toDos, boardId }: IBoardProps) {
         <input
           {...register("toDo", { required: true })}
           type="text"
-          placeholder={`Add task on ${boardId}`}
+          placeholder={`➕ Add task on ${boardId}`}
         />
       </Form>
       <Droppable droppableId={boardId}>

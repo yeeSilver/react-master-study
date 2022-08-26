@@ -3,15 +3,30 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atom";
 import Board from "./Components/Board";
+import Delete from "./Components/Delete";
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+`;
+const Side = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #eae5e6;
+`;
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   max-width: 680px;
   width: 100%;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  height: 100vh;
 `;
 
 const Boards = styled.div`
@@ -26,7 +41,7 @@ export default function App() {
   // onDragEnd 드래그가 끝난 뒤에 실행되는 함수
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
-
+    console.log(info);
     if (destination?.droppableId === source.droppableId) {
       // same board
       setToDos((allBoards) => {
@@ -63,13 +78,18 @@ export default function App() {
   return (
     // 드래그 이후에 드랍 할때 마다 실행되는 펑션
     <DragDropContext onDragEnd={onDragEnd}>
-      <Wrapper>
-        <Boards>
-          {Object.keys(toDos).map((boardId) => (
-            <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
-          ))}
-        </Boards>
-      </Wrapper>
+      <Container>
+        <Side>
+          <Delete />
+        </Side>
+        <Wrapper>
+          <Boards>
+            {Object.keys(toDos).map((boardId) => (
+              <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
+            ))}
+          </Boards>
+        </Wrapper>
+      </Container>
     </DragDropContext>
   );
 }
